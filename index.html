@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Teste GitHub Pages</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>❤️ Contador de Corações</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      user-select: none;
+    }
+    .heart {
+      font-size: 100px;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.3s;
+    }
+    .heart:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 10px red);
+    }
+    .count {
+      font-size: 40px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-  <h1>🚀 Site do Kauã está funcionando!</h1>
-  <p>Se você está vendo isso, o GitHub Pages foi configurado com sucesso.</p>
+  <div class="heart" id="heart">❤️</div>
+  <div class="count" id="count">0</div>
+  <script src="script.js"></script>
 </body>
 </html>
