@@ -1,39 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>❤️ Contador de Corações</title>
   <style>
     body {
-      background-color: #0d0d0d;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      background: #111;
+      color: white;
       font-family: Arial, sans-serif;
-      user-select: none;
+      text-align: center;
+      padding-top: 100px;
     }
-    .heart {
+    #heart {
       font-size: 100px;
       cursor: pointer;
-      transition: transform 0.2s, filter 0.3s;
+      transition: transform 0.2s;
     }
-    .heart:hover {
+    #heart:active {
       transform: scale(1.2);
-      filter: drop-shadow(0 0 10px red);
     }
-    .count {
+    #count {
       font-size: 40px;
-      margin-top: 15px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="heart" id="heart">❤️</div>
-  <div class="count" id="count">0</div>
-  <script src="script.js"></script>
+  <div id="heart">❤️</div>
+  <div id="count">0</div>
+
+  <script>
+    const BIN_ID = "68e5fbb9ae596e708f0a1617"; 
+    const API_KEY = "$2a$10$gIoRBKgUMYrxTnTx.u92/OTBzjLZAXoHoe/f7i1I6ey5Ms2MEGSRu";
+
+    const url = `https://api.jsonbin.io/v3/b/${68e5fbb9ae596e708f0a1617}`;
+
+    async function getCount() {
+      const res = await fetch(url, {
+        headers: { "X-Master-Key": }
+      });
+      const data = await res.json();
+      return data.record.hearts;
+    }
+
+    async function updateCount(newCount) {
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": API_KEY
+        },
+        body: JSON.stringify({ hearts: newCount })
+      });
+    }
+
+    async function init() {
+      let count = await getCount();
+      const countEl = document.getElementById("count");
+      const heartEl = document.getElementById("heart");
+      countEl.textContent = count;
+
+      heartEl.addEventListener("click", async () => {
+        count++;
+        countEl.textContent = count;
+        await updateCount(count);
+      });
+
+      // Atualiza em tempo real (a cada 3s)
+      setInterval(async () => {
+        const current = await getCount();
+        countEl.textContent = current;
+      }, 3000);
+    }
+
+    init();
+  </script>
 </body>
 </html>
